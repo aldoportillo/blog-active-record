@@ -1,0 +1,22 @@
+<% if notice.present? %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+<% content_for :title, "Posts" %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Blog Posts</h1>
+  <%= link_to "New post", new_post_path, class: "btn btn-primary" %>
+</div>
+
+<div id="posts">
+  <% @posts.each do |post| %>
+    <%= render post %>
+    <div class="mb-4">
+      <%= link_to "Show this post", post, class: "btn btn-outline-primary btn-sm" %>
+    </div>
+  <% end %>
+</div>

@@ -32,18 +32,50 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <%= link_to "All Posts", posts_path, class: "nav-link #{current_page?(posts_path) ? 'active' : ''}" %>
             </li>
-            <li class="nav-item">
-              <%= link_to "New Post", new_post_path, class: "nav-link #{current_page?(new_post_path) ? 'active' : ''}" %>
-            </li>
+
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to "New Post", new_post_path, class: "nav-link #{current_page?(new_post_path) ? 'active' : ''}" %>
+              </li>
+            <% end %>
+          </ul>
+          <ul class="navbar-nav">
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <span class="nav-link">Hello, <%= current_user.email %></span>
+              </li>
+              <li class="nav-item">
+                <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-outline-light" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+              </li>
+            <% end %>
           </ul>
         </div>
       </div>
     </nav>
     <div class="container mt-4">
+      <% if notice %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
     

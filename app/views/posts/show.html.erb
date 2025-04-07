@@ -1,10 +1,34 @@
-<p style="color: green"><%= notice %></p>
+<% if notice.present? %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
 
-<%= render @post %>
+<% content_for :title, @post %>
 
-<div>
-  <%= link_to "Edit this post", edit_post_path(@post) %> |
-  <%= link_to "Back to posts", posts_path %>
+<div class="mb-4">
+  <%= render @post %>
+</div>
 
-  <%= button_to "Destroy this post", @post, method: :delete %>
+<div class="mb-4">
+  <h4>Comments (<%= @post.comments.count %>)</h4>
+  <div id="comments" class="mb-3">
+    <% @post.comments.each do |comment| %>
+      <%= render comment %>
+    <% end %>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Add a Comment</h5>
+      <%= render 'comments/form', comment: Comment.new(post: @post) %>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex gap-2">
+  <%= link_to "Edit this post", edit_post_path(@post), class: "btn btn-secondary" %>
+  <%= link_to "Back to posts", posts_path, class: "btn btn-outline-secondary" %>
+  <%= button_to "Delete this post", @post, method: :delete, class: "btn btn-danger", form: { data: { turbo_confirm: "Are you sure?" } } %>
 </div>

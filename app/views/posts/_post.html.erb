@@ -1,17 +1,16 @@
-<div id="<%= dom_id post %>">
-  <p>
-    <strong>Title:</strong>
-    <%= post.formatted_title %>
-  </p>
-
-  <p>
-    <strong>Body:</strong>
-    <%= post.body %>
-  </p>
-
-  <p>
-    <strong>Published:</strong>
-    <%= post.published %>
-  </p>
-
+<div id="<%= dom_id post %>" class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title"><%= post.formatted_title %></h5>
+    <p class="card-text"><%= post.body %></p>
+    <div class="text-muted mb-2">
+      <small>
+        <% if post.published %>
+          <span class="badge bg-success">Published</span>
+        <% else %>
+          <span class="badge bg-secondary">Draft</span>
+        <% end %>
+        <span class="ms-2">Posted <%= time_ago_in_words(post.created_at) %> ago</span>
+      </small>
+    </div>
+  </div>
 </div>
